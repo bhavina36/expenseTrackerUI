@@ -1,0 +1,3 @@
+.MDBtable tbody + thead{
+    display: none;
+  }
