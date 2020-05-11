@@ -1,64 +1,41 @@
 import React from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import './Login.css'
 import {Button,Form} from 'react-bootstrap'
+import { connect } from 'react-redux';
+import * as actions from '../../Store/actions/index';
 
 class Login extends React.Component {
 
-    state = { 
-        redirect: null,
-    message: null };
-    
-
     loginClicked(event) {
 
-        event.preventDefault();
-
-        const data = {
-            "email":this.emailId,
-            "password":this.password
-        }
+        console.log("LOGIN CLICKED")
         
-        axios.post('http://localhost:8080/auth/login', data)
-        .then(res=>{
+       // event.preventDefault();                 
+        this.props.onAuth(this.emailId, this.password);     
 
-            console.log("login data"+JSON.stringify(res.data.response));
-
-            this.setState({ redirect: "/home",
-                            message :null }); 
-                            
-            localStorage.setItem("username",this.emailId);           
-            localStorage.setItem("token",res.data.response);
-                    
-            
-        })
-        .catch(error=> {     
-            
-            this.setState({ redirect: "/",
-                message : error.response.data.message}); 
-
-            console.log(error.response.data.message);
-        })
-
-        
+        console.log("this.props.authRedirectPath---->"+this.props.authRedirectPath)
+        console.log("this.props.isAuthenticated [Login.js]"+this.props.isAuthenticated +"[authRedirectPath]"+ this.props.authRedirectPath)
 
     }
 
     render() {
 
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
-          }  
-
-        var messagelabel = null;
-          if(this.state.message) {
-            messagelabel = <h6 className="MessageLabel">{this.state.message}</h6>
+         var messagelabel = null;
+          if(this.props.message) {
+            messagelabel = <h6 className="MessageLabel">{this.props.message}</h6>
           }
+          console.log("ErrorMEssage--->"+this.props.message)
+
+        //console.log("this.props.isAuthenticated [Login.js]"+this.props.isAuthenticated +"[authRedirectPath]"+ this.props.authRedirectPath)
+        let authRedirect = null;
+        if (this.props.isAuthenticated) {            
+            authRedirect = <Redirect to={this.props.authRedirectPath}/>
+        }
 
     return (
         <div>
-           
+            {authRedirect}
            <form className="Form">
             
             <h2 className="PurpleLable">Expense Tracker</h2>
@@ -72,8 +49,7 @@ class Login extends React.Component {
 
             <Form.Group>
             <Form.Control type="password" placeholder="Enter Password" name="password" onChange={(event=>this.password= event.target.value)} />
-            </Form.Group>
-           
+            </Form.Group>           
             
             <Button variant="primary" onClick={this.loginClicked.bind(this)}>Login</Button> <br/>
    
@@ -90,5 +66,20 @@ class Login extends React.Component {
 
 }
 
-export default Login
+const mapStateToProps = state => {
+    return {
+        message: state.errorMessage, 
+        authRedirectPath:state.authRedirectPath,
+        isAuthenticated: state.token  !== null
+
+    };
+  };
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (email, password) => dispatch(actions.auth(email,password))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 

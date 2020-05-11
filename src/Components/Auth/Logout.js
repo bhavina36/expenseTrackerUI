@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../Store/actions/index';
 
 class Logout extends Component {
 
     componentDidMount() {
 
-        console.log("componentDidMount [logout]")
-        localStorage.removeItem("username");
-        localStorage.removeItem("token");
+        this.props.onLogout()
 
-        console.log("localStorage" +localStorage.getItem("token"))
+        console.log("componentDidMount [logout]")
+        
+
+        console.log("localStorage:" +localStorage.getItem("token"))
     }
  
 
-    render () {
-
-        localStorage.removeItem("username");
-        localStorage.removeItem("token");
+    render () {       
         return <Redirect to="/"/>;
     }
 }
 
 
-export default Logout;
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogout: () => dispatch(actions.logout())
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Logout);
