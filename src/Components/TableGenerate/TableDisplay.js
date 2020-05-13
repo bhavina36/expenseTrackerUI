@@ -92,7 +92,13 @@ class TableDisplay extends React.Component {
         //evt.preventDefault();
        console.log('ID----------->'+JSON.stringify(id));   
        
-       axios.delete('http://localhost:8080/deleteExpense/'+id)
+       const AUthStr = 'Bearer '.concat(localStorage.getItem("token"))
+       axios.delete('/expense/deleteExpense/'+id,
+       { headers: {  
+       
+        'Authorization' : AUthStr
+    }
+    })
         .then(res=> {                
             console.log(res.data.message)      
             
@@ -110,8 +116,8 @@ render() {
             
     let data ={
         columns:COLUMNS,
-        rows:this.state.expenseData       
-            
+        rows:this.state.expenseData  
+    
     }    
     
     return (

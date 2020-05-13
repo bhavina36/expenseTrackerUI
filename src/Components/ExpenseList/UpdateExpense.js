@@ -26,7 +26,13 @@ class UpdateExpense extends React.Component {
 
     componentDidMount() {
         
-        axios.get('http://localhost:8080/updateExpense/'+this.props.match.params.id)
+        const AUthStr = 'Bearer '.concat(localStorage.getItem("token"))
+        axios.get('/expense/updateExpense/'+this.props.match.params.id,
+        { headers: {  
+       
+            'Authorization' : AUthStr
+        }
+        })
         .then(res=> {     
                                             
             this.setState({ expenseData :{
@@ -57,7 +63,13 @@ class UpdateExpense extends React.Component {
 
         console.log(this.state.expenseData)
         
-        axios.post('/expense/updateExpense/'+this.props.match.params.id,this.state.expenseData)
+        const AUthStr = 'Bearer '.concat(localStorage.getItem("token"))
+        axios.post('/expense/updateExpense/'+this.props.match.params.id,this.state.expenseData,
+        { headers: {  
+       
+            'Authorization' : AUthStr
+        }
+        })
         .then(res=>{
     
             console.log(res.data.message);    
