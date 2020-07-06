@@ -3,6 +3,8 @@ import './App.css';
 import {Switch, Route} from 'react-router-dom'
 import  Home from './Components/Home'
 import Login from './Components/Auth/Login'
+import ForgetPassword from './Components/Auth/ForgetPassword'
+import ChangePassword from './Components/Auth/ChangePassword'
 import RegisterUser from './Components/Auth/RegisterUser'
 import AddExpense from './Components/AddExpense'
 import ListExpense from './Components/ExpenseList/ListExpense'
@@ -20,6 +22,8 @@ class App extends Component {
     <Switch>
       <Route exact path="/Login" component={Login} />
       <Route exact path="/registerUser" component={RegisterUser} />
+      <Route exact path="/forgetPassword" component={ForgetPassword} />
+      <Route exact path="/changePassword" component={ChangePassword} />
       <Route exact path="/" component={Login} />
       <Redirect to="/" />
     </Switch>
@@ -34,6 +38,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/Login" component={Login} />
          <Route exact path="/registerUser" component={RegisterUser} />
+         <Route exact path="/forgetPassword" component={ForgetPassword} />
+         <Route exact path="/changePassword" component={ChangePassword} />
           <Route exact path="/" component={Login} />        
           <Route exact path="/home" component={Home} />
           <Route exact path="/addExpense" component={AddExpense} />

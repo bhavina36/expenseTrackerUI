@@ -39,7 +39,7 @@ export const auth = (email, password) => {
             password: password
         };
       
-        axios.post('http://localhost:8080/auth/login', authData)
+        axios.post('/auth/login', authData)
             .then(res => {
                 console.log(res);
                 //const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
