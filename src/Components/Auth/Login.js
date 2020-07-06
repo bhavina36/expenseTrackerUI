@@ -52,7 +52,7 @@ class Login extends React.Component {
             </Form.Group>           
             
             <Button variant="primary" onClick={this.loginClicked.bind(this)}>Login</Button> <br/>
-   
+            <Link variant="link" to='/forgetPassword'>Forget Password?</Link><br/>
             <Link variant="link" to='/registerUser'>Create Account </Link>
             <br/>
             {messagelabel}
